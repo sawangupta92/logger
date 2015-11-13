@@ -3,3 +3,15 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  p Please Enter your app name:
+  form(method='post', action='/log')
+    input(type='text', name='application_to_log')
+    input(type='submit')
+  p Input was
+  script(src='/socket.io/socket.io.js')
+  script.
+    var socket = io.connect('http://localhost:2000');
+    socket.on('connect', function (data) {
+      console.log(data);
+      socket.emit('my other event');
+    });
