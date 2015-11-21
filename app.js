@@ -8,7 +8,7 @@ var runCommand = require('./routes/modules/run_command');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var log = require('./routes/log');
-
+var async = require('async');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -33,7 +33,12 @@ app.use('/log', log);
 io.on('connection', function(socket){
   socket.emit('data', { a: 1 })
   socket.on('send data', function(data){
-    runCommand(data.data, socket)
+    command = "tail -f /proc/" + data.data + "/fd/7"
+    runCommand(command, socket)
+  })
+  socket.on('list processes', function(data){
+    command = "ps -aux | grep -i " + data.data;
+    runCommand(command, socket);
   })
 });
 

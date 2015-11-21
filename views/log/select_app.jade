@@ -1,18 +1,26 @@
-link(rel='stylesheet', href='stylesheets/bootstrap.css')
+link(rel='stylesheet', href='/stylesheets/bootstrap.css')
 script(src='/socket.io/socket.io.js')
-script(src='javascripts/jquery-1.9.1.min.js')
+script(src='/javascripts/jquery-1.9.1.min.js')
 
 div(class='container')
   div(class='col-lg-12')
     p Input was #{response}
+    div(class='response').
+      #{ response }
     div(class=' well bs-component bg-light-div col-lg-8 col-lg-offset-2')
       pre(class='show-logs').
         this is here all the stuff goes.
 
+p Please Enter your app name:
+form(method='post', action='/log')
+  input(type='text', name='application_to_log')
+  input(type='submit')
+
+
 script.
   var socket = io.connect('http://localhost:2000');
-  socket.emit('send data', { data: #{ response } });
+  socket.emit('list processes', { data: $('.response').html() });
   socket.on('data', function (data) {
     $('.show-logs').append(data.data);
-    console.log(data)
   });
+

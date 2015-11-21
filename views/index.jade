@@ -7,6 +7,11 @@ block content
   form(method='post', action='/log')
     input(type='text', name='application_to_log')
     input(type='submit')
+  h1.
+    Enter App Name
+  form(method='post', action='/log/app_name')
+    input(type='text', name='application_name')
+    input(type='submit')
   p Input was
   script(src='/socket.io/socket.io.js')
   script.
